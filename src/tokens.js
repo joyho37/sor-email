@@ -37,6 +37,10 @@ export const neutral = {
   textMuted: '#5A5A5A',
   bodyBg: '#FAF8F4', // bg/surface-1
   cardBg: '#FFFFFF',
+  // 卡片外框兩套配色共用。兒童版原本是 2px 珊瑚色，但卡片與頁尾改成直角貼齊後，
+  // 那道彩色粗框會變成白色內容與深色頁尾之間的一條線，所以改用中性細框。
+  cardBorder: '#E4E4EC',
+  cardBorderWidth: '1px',
   divider: '#DFDFDF',
   footerBg: '#1A1A1A', // bg/footer
   footerText: '#FFFFFF',
@@ -58,8 +62,6 @@ export const kids = {
   name: 'kids',
   accent: '#EF857D',
   accentDeep: '#C6504E',
-  cardBorder: '#EF857D',
-  cardBorderWidth: '2px',
   radiusInner: '16px',
   radiusInnerInset: '15px', // radiusInner - 1px
   eyebrowBg: '#FAE5E4',
@@ -82,8 +84,6 @@ export const adult = {
   name: 'adult',
   accent: '#4F518C', // category/adult-fill
   accentDeep: '#3B3D6B',
-  cardBorder: '#E4E4EC',
-  cardBorderWidth: '1px',
   radiusInner: '10px',
   radiusInnerInset: '9px', // radiusInner - 1px
   eyebrowBg: '#ECECF4',
