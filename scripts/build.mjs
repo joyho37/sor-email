@@ -106,16 +106,26 @@ function previewIndex() {
 <meta name="robots" content="noindex, nofollow" />
 <title>SoR 郵件樣板預覽</title>
 <style>
-  body { margin: 0; font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; background: #EFEDE8; color: #1A1A1A; }
+  /* 手機上信件本身才是要看的東西，選單與說明不該吃掉版面：
+     選單單列橫向捲動（六顆按鈕換行會佔掉三列），iframe 吃掉剩下的高度。 */
+  body { margin: 0; font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; background: #EFEDE8; color: #1A1A1A; display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
   header { padding: 20px 24px 0; }
   h1 { font-size: 18px; margin: 0 0 4px; }
   .note { font-size: 13px; color: #5A5A5A; margin: 0 0 16px; }
-  .tabs { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 24px 16px; }
-  .tab { font: inherit; font-size: 14px; padding: 8px 14px; border-radius: 999px; border: 1px solid #C9C6BE; background: #fff; color: #1A1A1A; cursor: pointer; }
+  .tabs { display: flex; gap: 8px; padding: 0 24px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  /* Chrome 在捲動容器上會吃掉右側 padding，補一塊等寬的尾巴。 */
+  .tabs::after { content: ""; flex: 0 0 16px; }
+  .tab { flex: 0 0 auto; white-space: nowrap; font: inherit; font-size: 14px; padding: 8px 14px; border-radius: 999px; border: 1px solid #C9C6BE; background: #fff; color: #1A1A1A; cursor: pointer; }
   .tab.is-active { background: #1A1A1A; color: #fff; border-color: #1A1A1A; }
   .subject { margin: 0 24px 12px; padding: 12px 16px; background: #fff; border: 1px solid #DFDFDF; border-radius: 8px; font-size: 14px; }
   .subject b { color: #5A5A5A; font-weight: 600; margin-right: 8px; }
-  iframe { display: block; width: 100%; height: calc(100vh - 210px); border: 0; border-top: 1px solid #DFDFDF; background: #FAF8F4; }
+  iframe { display: block; flex: 1 1 auto; width: 100%; min-height: 0; border: 0; border-top: 1px solid #DFDFDF; background: #FAF8F4; }
+  @media (max-width: 600px) {
+    header { padding: 14px 16px 0; }
+    .note { margin-bottom: 12px; }
+    .tabs { padding: 0 16px 12px; }
+    .subject { margin: 0 16px 10px; padding: 10px 12px; }
+  }
 </style>
 </head>
 <body>
@@ -136,6 +146,7 @@ ${tabs}
     tabs.forEach((t) => t.classList.toggle('is-active', t === tab));
     frame.src = tab.dataset.src;
     subject.textContent = tab.dataset.subject;
+    tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }
   tabs.forEach((tab) => tab.addEventListener('click', () => show(tab)));
   show(tabs[0]);
