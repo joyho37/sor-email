@@ -258,7 +258,11 @@ describe('GitHub Pages 站台', () => {
   // 專案型 Pages 的 robots.txt 落在 /sor-email/robots.txt，不是網域根目錄，爬蟲不會讀，
   // 所以真正生效的是每一頁的 noindex meta——這條測試守的就是那道。
   it('每一頁上站的 HTML 都帶 noindex', async () => {
-    const pages = ['index.html', 'preview/index.html', ...emails.map((e) => `preview/${e.id}.html`)];
+    // 掃整個 dist/ 而不是列一份清單：新增的頁面必須自己撞上這條，不能靜默漏掉。
+    const pages = (await readdir(path.join(root, 'dist'), { recursive: true }))
+      .map((/** @type {string} */ entry) => entry.split(path.sep).join('/'))
+      .filter((/** @type {string} */ entry) => entry.endsWith('.html') && !entry.startsWith('emails/'));
+    assert.ok(pages.length > emails.length, '應該掃到六封預覽信以外的頁');
     for (const page of pages) {
       const html = await readDist(...page.split('/'));
       assert.match(html, /<meta name="robots" content="noindex, nofollow"/, page);
@@ -268,7 +272,7 @@ describe('GitHub Pages 站台', () => {
   it('站台不發佈交付給後端的六封信', async () => {
     // 交付檔案要保持乾淨，不塞 noindex，代價是不能上站——由 workflow 把它排除。
     const workflow = await readFile(path.join(root, '.github', 'workflows', 'pages.yml'), 'utf8');
-    assert.match(workflow, /rm -rf dist\/emails/);
+    assert.match(workflow, /rm -r[a-z]* dist\/emails/, 'workflow 不再把 dist/emails 排除在站台之外');
     for (const email of emails) {
       const html = await readDist('emails', `${email.id}.html`);
       assert.doesNotMatch(html, /name="robots"/, email.id);

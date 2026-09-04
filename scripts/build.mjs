@@ -48,7 +48,7 @@ function resolveLogo(asset, preview) {
 /**
  * 產生一封信的完整 HTML。
  * @param {import('../src/emails.js').Email} email
- * @param {{ preview: boolean }} opts 預覽版改用本機 logo，讓課務不必等雲端網址就能審閱
+ * @param {{ preview: boolean }} opts 預覽版會上站，logo 走站內相對路徑，並多帶一行 noindex
  */
 export async function render(email, opts = { preview: false }) {
   const palette = palettes[email.palette];
@@ -168,6 +168,22 @@ function siteIndex() {
 `;
 }
 
+/** GitHub 預設的 404 頁不帶 noindex，自己出一份，站上就沒有漏網的頁。 */
+function notFoundPage() {
+  return `<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<title>找不到這一頁</title>
+</head>
+<body>
+<p>找不到這一頁。<a href="/sor-email/">回郵件樣板預覽</a></p>
+</body>
+</html>
+`;
+}
+
 const ROBOTS_TXT = `# 站台公開但不進搜尋結果。真正生效的是每一頁的 noindex meta：
 # 專案型 GitHub Pages 的這個檔案不在網域根目錄，爬蟲不會讀到。
 User-agent: *
@@ -194,6 +210,7 @@ async function build() {
 
   await writeFile(path.join(distDir, 'preview', 'index.html'), previewIndex(), 'utf8');
   await writeFile(path.join(distDir, 'index.html'), siteIndex(), 'utf8');
+  await writeFile(path.join(distDir, '404.html'), notFoundPage(), 'utf8');
   await writeFile(path.join(distDir, 'robots.txt'), ROBOTS_TXT, 'utf8');
   console.log(`建置完成：${emails.length} 封信 → dist/emails/，預覽 → dist/preview/index.html`);
 }

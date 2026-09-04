@@ -23,6 +23,11 @@
 - **`dist/emails/` 不上站**：交付給後端的檔案要保持乾淨、不塞 noindex，代價是不發佈。後端從 repo 拿。
 - **repo 必須保持公開、不改名、不轉移**：logo 網址綁在上面，否則所有已寄出的信都會破圖。
 
+noindex 只蓋得住站台的 HTML，還有兩處蓋不到，是轉公開時一併接受的：
+
+- **repo 本身**：`github.com/joyho37/sor-email` 的頁面照樣可被搜尋引擎索引，也就是 `docs/copy/` 的文案、班期與老師姓名、`src/constants.js` 的聯繫人 LINE ID 都搜得到。把 `dist/emails/` 排除在站台之外擋的只是 Pages 那一條路。
+- **logo 圖檔**：圖片不是頁，掛不了 meta；Pages 也不給設 `X-Robots-Tag`。圖片搜尋可能收錄那兩張 PNG。
+
 ## 指令
 
 ```bash
