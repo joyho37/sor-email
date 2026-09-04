@@ -1,0 +1,71 @@
+<%
+/**
+ * 頁尾：精簡版。保留設計稿的深色底、logo、品牌描述、版權列；
+ * 收掉六欄連結，換成「官方客服 LINE」與「前往官網」兩個入口。
+ *
+ * 不設回信信箱是已定案的決定，因此這裡的 LINE 與官網是收件人**唯一**的求助管道。
+ */
+%>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="footer" bgcolor="<%= palette.footerBg %>" style="width:100%;">
+  <tr>
+    <td align="center" class="footer" style="padding:30px 24px 10px 24px;">
+      <img src="<%= logoInverse.src %>" width="<%= logoInverse.width %>" height="<%= logoInverse.height %>" alt="<%= logoInverse.alt %>" style="display:block;border:0;outline:none;text-decoration:none;width:<%= logoInverse.width %>px;height:<%= logoInverse.height %>px;" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" class="footer-text" style="padding:0 24px 20px 24px;"><%= tagline %></td>
+  </tr>
+  <tr>
+    <td align="center" class="footer" style="padding:0 24px 18px 24px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="footer" bgcolor="<%= palette.footerBg %>">
+        <tr>
+          <td align="center" class="footer" style="padding:0 5px;">
+            <!--[if mso]>
+            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="<%= officialLineUrl %>" style="height:40px;v-text-anchor:middle;width:170px;" arcsize="50%" strokecolor="#4A4A4A" strokeweight="1px" fillcolor="<%= palette.footerBg %>">
+              <w:anchorlock/>
+              <center style="color:#FFFFFF;font-family:sans-serif;font-size:14px;font-weight:bold;">官方客服 LINE</center>
+            </v:roundrect>
+            <![endif]-->
+            <%- SENTINELS.notMsoOpen %>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="footer-btn" bgcolor="<%= palette.footerBg %>">
+              <tr>
+                <td align="center" class="footer-btn" style="padding:10px 20px;">
+                  <a class="footer-btn-a" href="<%= officialLineUrl %>" target="_blank" rel="noopener">官方客服 LINE</a>
+                </td>
+              </tr>
+            </table>
+            <%- SENTINELS.notMsoClose %>
+          </td>
+          <td align="center" class="footer" style="padding:0 5px;">
+            <!--[if mso]>
+            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="<%= siteUrl %>" style="height:40px;v-text-anchor:middle;width:140px;" arcsize="50%" strokecolor="#4A4A4A" strokeweight="1px" fillcolor="<%= palette.footerBg %>">
+              <w:anchorlock/>
+              <center style="color:#FFFFFF;font-family:sans-serif;font-size:14px;font-weight:bold;">前往官網</center>
+            </v:roundrect>
+            <![endif]-->
+            <%- SENTINELS.notMsoOpen %>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="footer-btn" bgcolor="<%= palette.footerBg %>">
+              <tr>
+                <td align="center" class="footer-btn" style="padding:10px 20px;">
+                  <a class="footer-btn-a" href="<%= siteUrl %>" target="_blank" rel="noopener">前往官網</a>
+                </td>
+              </tr>
+            </table>
+            <%- SENTINELS.notMsoClose %>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" class="footer-text" style="padding:0 24px 16px 24px;"><%
+      social.forEach((s, i) => { %><% if (i > 0) { %> · <% } %><a class="footer-link" href="<%= s.url %>" target="_blank" rel="noopener"><%= s.label %></a><% });
+    %></td>
+  </tr>
+  <tr>
+    <td class="divider" height="1" style="height:1px;">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" class="footer-text" style="padding:16px 24px 28px 24px;"><%= copyright %></td>
+  </tr>
+</table>

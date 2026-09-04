@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="zh-Hant">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="x-apple-disable-message-reformatting" />
+<meta name="color-scheme" content="light" />
+<meta name="supported-color-schemes" content="light" />
+<title><%= subject %></title>
+<!--
+  主旨：<%= subject %>
+  主旨列的變數不在下方 body 裡，寄信端要另外帶。變數清單見 docs/variables.md。
+  preheader（收件匣預覽文字）目前刻意不寫。
+-->
+<!--[if mso]>
+<xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml>
+<![endif]-->
+<style type="text/css"><%- mediaCss %></style>
+</head>
+<body class="body-bg" style="margin:0;padding:0;width:100%;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="body-bg" bgcolor="<%= palette.bodyBg %>" style="width:100%;">
+  <tr>
+    <td align="center" class="body-bg" style="padding:24px 12px 32px 12px;">
+      <!--[if mso]>
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td>
+      <![endif]-->
+      <table role="presentation" width="<%= width %>" cellpadding="0" cellspacing="0" border="0" class="w-full" style="width:<%= width %>px;">
+        <tr>
+          <td class="body-bg">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="card" bgcolor="<%= palette.cardBg %>" style="width:100%;">
+              <%- include('partials/header') %>
+              <tr>
+                <td class="px" style="padding:30px 32px 34px 32px;background-color:<%= palette.cardBg %>;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background-color:<%= palette.cardBg %>;">
+                    <%- content %>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td height="16" class="body-bg" style="height:16px;line-height:16px;font-size:0;">&nbsp;</td>
+        </tr>
+        <tr>
+          <td class="body-bg">
+            <%- include('partials/footer') %>
+          </td>
+        </tr>
+      </table>
+      <!--[if mso]>
+      </td></tr></table>
+      <![endif]-->
+    </td>
+  </tr>
+</table>
+</body>
+</html>

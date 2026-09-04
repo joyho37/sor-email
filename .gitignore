@@ -11,3 +11,6 @@ desktop.ini
 # Env
 .env
 .env.local
+
+# Node
+node_modules/

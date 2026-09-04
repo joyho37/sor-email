@@ -1,0 +1,13 @@
+<%
+/** 項目符號列。用表格排，不用 ul——Outlook 對 ul 的縮排不可預測。locals：html */
+%>
+<tr>
+  <td style="background-color:<%= bg %>;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background-color:<%= bg %>;">
+      <tr>
+        <td width="16" valign="top" class="p" style="width:16px;">·</td>
+        <td valign="top" class="p"><%- html %></td>
+      </tr>
+    </table>
+  </td>
+</tr>

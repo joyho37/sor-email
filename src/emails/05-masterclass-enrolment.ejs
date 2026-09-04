@@ -1,0 +1,36 @@
+<%- include('../partials/eyebrow', { text: '報名成功' }) %>
+<%- spacer(14) %>
+<tr><td class="h1">學習啟動與報到通知</td></tr>
+<%- spacer(24) %>
+<tr><td class="p">親愛的 {{上課者姓名}} 您好：</td></tr>
+<%- spacer(12) %>
+<tr><td class="p">歡迎您加入【{{梯次名稱}}】的學習行列！很開心能與您攜手同行 ❤️</td></tr>
+<%- spacer(20) %>
+<tr><td class="p"><span class="em">您的專屬學號為：</span></td></tr>
+<%- spacer(10) %>
+<%- include('../partials/chip', { html: '{{學號}}' }) %>
+<%- spacer(10) %>
+<tr><td class="p-muted">請妥善保存，後續驗證與上課將會使用。</td></tr>
+<%- spacer(26) %>
+<tr><td class="h2">完成報到｜兩個步驟</td></tr>
+<%- spacer(12) %>
+<tr><td class="p">請點擊下方連結加入官方客服，並回傳您的報名資料以完成報到：</td></tr>
+<%- spacer(18) %>
+<%- include('../partials/step', { n: 1, title: '點擊連結加入官方客服' }) %>
+<%- spacer(14) %>
+<%- include('../partials/button', { label: '加入官方客服', href: officialLineUrl, width: 240 }) %>
+<%- spacer(24) %>
+<%- include('../partials/step', { n: 2, title: '直接複製並回傳以下資訊' }) %>
+<%- spacer(12) %>
+<%- include('../partials/copy-block', {
+  label: '請複製以下這段，回傳給官方客服',
+  html: '課程名稱：{{梯次名稱}}<br />上課者學號：{{學號}}<br />上課者姓名：{{上課者姓名}}'
+}) %>
+<%- spacer(22) %>
+<%- include('../partials/notice', { html: '完成身分驗證後，系統將自動發送「<span class="em">報到流程網址</span>」給您。屆時請點擊網頁連結，即可一次輕鬆完成班級群組加入、社團申請與學員手冊下載等開課準備事項！' }) %>
+<%- spacer(26) %>
+<tr><td class="p">再次歡迎您的加入，期待與您在課程中相見！</td></tr>
+<%- spacer(10) %>
+<tr><td class="p">若有任何問題，歡迎隨時透過<span class="em">官方客服</span>與我們聯繫。</td></tr>
+<%- spacer(22) %>
+<tr><td class="p-muted">蕭博士 SoR 美語團隊 敬上</td></tr>

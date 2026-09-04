@@ -1,0 +1,33 @@
+<%
+/**
+ * 按鈕。pill 圓角（Outlook 會丟掉，變直角，這是接受的降級）。
+ *
+ * locals：label、href、width（VML 需要固定像素寬）、variant（primary｜ghost）
+ */
+const variant = locals.variant || 'primary';
+const isGhost = variant === 'ghost';
+const fillColor = isGhost ? palette.btn2Bg : palette.btnBg;
+const textColor = isGhost ? palette.btn2Text : palette.btnText;
+const strokeColor = isGhost ? palette.btn2Border : palette.btnBorder;
+const cls = isGhost ? 'btn-ghost' : 'btn';
+const w = locals.width || 300;
+%>
+<tr>
+  <td align="center" style="background-color:<%= bg %>;">
+    <!--[if mso]>
+    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="<%= href %>" style="height:48px;v-text-anchor:middle;width:<%= w %>px;" arcsize="50%" strokecolor="<%= strokeColor %>" strokeweight="1px" fillcolor="<%= fillColor %>">
+      <w:anchorlock/>
+      <center style="color:<%= textColor %>;font-family:sans-serif;font-size:16px;font-weight:bold;"><%= label %></center>
+    </v:roundrect>
+    <![endif]-->
+    <%- SENTINELS.notMsoOpen %>
+    <table role="presentation" class="<%= cls %>" cellpadding="0" cellspacing="0" border="0" bgcolor="<%= fillColor %>">
+      <tr>
+        <td align="center" class="<%= cls %>" style="padding:13px 26px;">
+          <a class="<%= cls %>-a" href="<%= href %>" target="_blank" rel="noopener"><%= label %></a>
+        </td>
+      </tr>
+    </table>
+    <%- SENTINELS.notMsoClose %>
+  </td>
+</tr>

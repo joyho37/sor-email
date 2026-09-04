@@ -1,0 +1,39 @@
+<%- include('../partials/eyebrow', { text: '報名成功' }) %>
+<%- spacer(14) %>
+<tr><td class="h1">報名成功通知</td></tr>
+<%- spacer(24) %>
+<tr><td class="p">親愛的 {{上課者姓名}} 您好：</td></tr>
+<%- spacer(12) %>
+<tr><td class="p">感謝您選擇【蕭博士 SoR 美語】！很高興能陪伴您展開英語學習之旅，祝您學習愉快、收穫滿滿！</td></tr>
+<%- spacer(10) %>
+<tr><td class="p">為確保教材寄送及開課資訊能準確送達，讓您順利開始學習，請您協助完成以下報到流程：</td></tr>
+<%- spacer(26) %>
+<tr><td class="h2">加入官方客服 完成報到驗證</td></tr>
+<%- spacer(18) %>
+<%- include('../partials/step', { n: 1, title: '點擊連結加入 官方客服' }) %>
+<%- spacer(14) %>
+<%- include('../partials/button', { label: '加入官方客服', href: officialLineUrl, width: 240 }) %>
+<%- spacer(24) %>
+<%- include('../partials/step', { n: 2, title: '傳送關鍵字' }) %>
+<%- spacer(12) %>
+<tr><td class="p">加入後，請在對話中傳送以下關鍵字，我們才能確認您的報名：</td></tr>
+<%- spacer(12) %>
+<%- include('../partials/chip', { html: '{{報到關鍵字}}' }) %>
+<%- spacer(20) %>
+<%- include('../partials/notice', { html: '⚠️&nbsp;&nbsp;完成後，若未收到<span class="em">課程相關通知</span>，請確認關鍵字是否正確。' }) %>
+<%- spacer(30) %>
+<tr><td class="h2">加課程聯繫人「<%= adultContact.name %>」Line 好友</td></tr>
+<%- spacer(14) %>
+<%- include('../partials/notice', { html: '<span class="em">' + adultContact.name + '</span>　Line ID：<span class="em">' + adultContact.lineId + '</span>' }) %>
+<%- spacer(14) %>
+<tr><td class="p">任何關於蕭博士 SoR 美語發音聽力矯正班的相關行政問題，請洽「<span class="em"><%= adultContact.name %></span>」為您服務。</td></tr>
+<%- spacer(24) %>
+<%- include('../partials/notice', { html: '<span class="em">【開課提醒】</span>為維護教學品質，未達最低開班人數保留併班或延期開課權利。' }) %>
+<%- spacer(26) %>
+<tr><td class="p">若您有任何疑問，歡迎隨時透過<span class="em">官方客服</span>與我們聯繫。</td></tr>
+<%- spacer(10) %>
+<tr><td class="p">再次感謝您的加入，期待未來與您一同享受學習的樂趣，開啟更美好的學習旅程！</td></tr>
+<%- spacer(22) %>
+<tr><td class="p-muted">敬祝 平安順心</td></tr>
+<%- spacer(4) %>
+<tr><td class="p-muted">蕭博士 SoR 美語 敬上</td></tr>

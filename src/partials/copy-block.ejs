@@ -1,0 +1,26 @@
+<%
+/**
+ * 可複製區塊。灰底、等寬字、虛線框——刻意和信件其他部分長得不一樣，
+ * 讓收件人一眼看出「這段是要整段複製出去的」。
+ *
+ * 區塊裡有兩種東西，視覺上必須分得開：
+ * - `{{系統變數}}`：寄信前就被後端換成實值，收件人看到的是內容
+ * - `（請填入…）`：收件人自己要打字的地方，用 `.fill` 標成底線色字
+ *
+ * locals：label（區塊上方的說明）、html（區塊內容）
+ */
+%>
+<tr>
+  <td style="background-color:<%= bg %>;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="copy" bgcolor="<%= palette.copyBg %>">
+      <% if (locals.label) { %>
+      <tr>
+        <td class="copy-label" style="padding:14px 18px 0 18px;"><%= label %></td>
+      </tr>
+      <% } %>
+      <tr>
+        <td class="copy-text" style="padding:8px 18px 16px 18px;"><%- html %></td>
+      </tr>
+    </table>
+  </td>
+</tr>

@@ -1,0 +1,48 @@
+<%- include('../partials/eyebrow', { text: '開課通知' }) %>
+<%- spacer(14) %>
+<tr><td class="h1">請加入課程群組</td></tr>
+<%- spacer(24) %>
+<tr><td class="p">{{上課者姓名}} 的家長 您好：</td></tr>
+<%- spacer(12) %>
+<tr><td class="p">歡迎加入【蕭博士 SoR 美語 拼讀小達人】！為了讓您與孩子順利開啟學習，請撥空詳讀並配合完成以下開課準備：</td></tr>
+<%- spacer(26) %>
+<tr><td class="h2">務必完成｜三步驟開啟學習</td></tr>
+<%- spacer(18) %>
+<%- include('../partials/step', { n: 1, title: '加入課程 Line 群組' }) %>
+<%- spacer(12) %>
+<tr><td class="p">請點擊下方連結加入班級群組（建議使用手機版操作）：</td></tr>
+<%- spacer(12) %>
+<tr><td class="p"><span class="em">班級名稱：</span><span class="var">{{班級名稱}}</span></td></tr>
+<%- spacer(14) %>
+<%- include('../partials/button', { label: '加入班級群組', href: '{{班級群組連結}}', width: 240 }) %>
+<%- spacer(26) %>
+<%- include('../partials/step', { n: 2, title: '入群簡單自我介紹' }) %>
+<%- spacer(12) %>
+<tr><td class="p">加入群組後，請於群組發送簡單介紹，方便老師與大家認識您：</td></tr>
+<%- spacer(12) %>
+<%- include('../partials/copy-block', {
+  label: '請複製以下這段，貼到班級群組',
+  html: '大家好，我是 {{上課者姓名}} 的爸爸/媽媽，寶貝今年<span class="fill">（請填入年級）</span>，很高興跟大家一起學習！'
+}) %>
+<%- spacer(26) %>
+<%- include('../partials/step', { n: 3, title: '前往群組「記事本」查看課前準備' }) %>
+<%- spacer(12) %>
+<%- include('../partials/bullet', { html: '<span class="em">APP 下載與導覽：</span>正音師已將 <span class="em">SoR 學習 APP 下載教學</span> 與 <span class="em">說明手冊</span> 整理於群組記事本中，請依說明完成安裝。' }) %>
+<%- spacer(8) %>
+<%- include('../partials/bullet', { html: '<span class="em">Gmail 帳號開通：</span>若尚未提供您與寶貝的 Gmail，請私訊官方客服提供。' }) %>
+<%- spacer(14) %>
+<%- include('../partials/button', { label: '私訊官方客服', href: officialLineUrl, width: 240, variant: 'ghost' }) %>
+<%- spacer(28) %>
+<tr><td class="h2">課程與線上互動資訊</td></tr>
+<%- spacer(14) %>
+<%- include('../partials/bullet', { html: '<span class="em">正式開課日期：</span><span class="var">{{開課日期}}</span>' }) %>
+<%- spacer(8) %>
+<%- include('../partials/bullet', { html: '<span class="em">正音師線上互動時間：</span><span class="var">{{互動時間}}</span>' }) %>
+<%- spacer(16) %>
+<%- include('../partials/notice', { html: '<span class="em">首堂課特別提醒：</span>{{開課日期}} 開課首日為<span class="em">師生交流相見歡</span>，將說明課程安排與親師配合事項，請務必準時出席！' }) %>
+<%- spacer(26) %>
+<tr><td class="p">非常期待與您及孩子在課堂相見！過程中若有任何疑問，歡迎隨時於群組中提出。</td></tr>
+<%- spacer(22) %>
+<tr><td class="p-muted">祝 學習愉快、收穫滿滿！</td></tr>
+<%- spacer(4) %>
+<tr><td class="p-muted">蕭博士 SoR 美語團隊 敬上</td></tr>

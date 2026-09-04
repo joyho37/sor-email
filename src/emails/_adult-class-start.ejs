@@ -1,0 +1,64 @@
+<%
+/**
+ * 信 4（成人矯正班開課通知）與信 6（大師班開課通知）的共用內容。
+ *
+ * 兩封信的文案逐字相同，只差歡迎語裡的課程名稱，由 `courseName` 帶入。
+ * 課程名稱不是系統變數：`{{梯次名稱}}` 含組別（`…–52100組`），放進歡迎語會很怪，
+ * 所以歡迎語用的是各自模板的固定字串。見 docs/variables.md 的「常數」一節。
+ *
+ * 兩封信的班期資料可能完全相同，這不是複製錯誤——大師班的授課內容涵蓋成人矯正班，
+ * 可能指向同一個班級與群組。去重規則屬後端邏輯，見 #7。
+ */
+%>
+<%- include('../partials/eyebrow', { text: '開課通知' }) %>
+<%- spacer(14) %>
+<tr><td class="h1">請加入課程群組</td></tr>
+<%- spacer(24) %>
+<tr><td class="p">親愛的學員 您好：</td></tr>
+<%- spacer(12) %>
+<tr><td class="p">歡迎您加入【<span class="em">蕭博士 SoR 美語 <%= courseName %></span>】！很榮幸能陪伴您開啟這趟專屬的發音聽力精進之旅。</td></tr>
+<%- spacer(10) %>
+<tr><td class="p">為了讓您的學習順暢無縫接軌，請撥空協助完成以下開課準備：</td></tr>
+<%- spacer(26) %>
+<tr><td class="h2">開課三步驟｜請撥空完成</td></tr>
+<%- spacer(18) %>
+<%- include('../partials/step', { n: 1, title: '加入課程 Line 群組' }) %>
+<%- spacer(12) %>
+<tr><td class="p">請以手機點擊連結加入班級群組：</td></tr>
+<%- spacer(12) %>
+<tr><td class="p"><span class="em">班級名稱：</span><span class="var">{{班級名稱}}</span></td></tr>
+<%- spacer(14) %>
+<%- include('../partials/button', { label: '加入班級群組', href: '{{班級群組連結}}', width: 240 }) %>
+<%- spacer(26) %>
+<%- include('../partials/step', { n: 2, title: '入群簡單自我介紹' }) %>
+<%- spacer(12) %>
+<tr><td class="p">入群後請發送：</td></tr>
+<%- spacer(12) %>
+<%- include('../partials/copy-block', {
+  label: '請複製以下這段，貼到班級群組',
+  html: '大家好，我是<span class="fill">（請填入姓名）</span>，很高興跟大家一起學習！'
+}) %>
+<%- spacer(26) %>
+<%- include('../partials/step', { n: 3, title: '前往群組「記事本」查看課前準備' }) %>
+<%- spacer(12) %>
+<%- include('../partials/bullet', { html: '<span class="em">APP 下載：</span>記事本內已備妥 <span class="em">SoR 學習 APP 下載教學與手冊</span>。' }) %>
+<%- spacer(8) %>
+<%- include('../partials/bullet', { html: '<span class="em">APP 帳號：</span>請直接使用您的【官網會員帳密】登入。' }) %>
+<%- spacer(30) %>
+<tr><td class="h2">課程與時間安排</td></tr>
+<%- spacer(16) %>
+<tr><td class="h3">關鍵日程</td></tr>
+<%- spacer(10) %>
+<%- include('../partials/bullet', { html: '<span class="em">師生相見歡｜</span><span class="var">{{師生相見歡}}</span>（說明課程與配合事項，請務必出席）' }) %>
+<%- spacer(8) %>
+<%- include('../partials/bullet', { html: '<span class="em">正式開課日｜</span><span class="var">{{正式開課日}}</span>' }) %>
+<%- spacer(18) %>
+<tr><td class="h3">常態上課時間</td></tr>
+<%- spacer(10) %>
+<%- include('../partials/bullet', { html: '<span class="em">固定時段｜</span><span class="var">{{常態上課時間}}</span>' }) %>
+<%- spacer(26) %>
+<tr><td class="p">非常期待與您在課堂相見！若有任何疑問，歡迎隨時於群組中提出。</td></tr>
+<%- spacer(22) %>
+<tr><td class="p-muted">祝 學習愉快！</td></tr>
+<%- spacer(4) %>
+<tr><td class="p-muted">蕭博士 SoR 美語團隊 敬上</td></tr>
