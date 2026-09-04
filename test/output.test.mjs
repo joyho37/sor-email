@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import * as cheerio from 'cheerio';
 import { render } from '../scripts/build.mjs';
 import { emails, extractVariables, fill } from '../src/emails.js';
 import { css, mediaCss } from '../src/styles.js';
@@ -177,6 +178,51 @@ describe('變數清單是交付物，不能落後於樣板', () => {
       }
     }
   });
+});
+
+describe('圓角', () => {
+  for (const email of emails) {
+    it(`${email.id} 圓角容器的角落儲存格自己也有圓角`, () => {
+      // `border-radius` 只裁切該元素**自己**的背景，裡面 `<td>` 的底色照樣是直角，
+      // 會蓋在圓角上露出方形缺口。角落那一列的儲存格只要有底色就必須自己也有圓角。
+      const $ = cheerio.load(/** @type {string} */ (built.get(email.id)));
+      let checked = 0;
+      $('table').each((_, table) => {
+        if (!/border-radius\s*:\s*[^;]*[1-9]/.test($(table).attr('style') ?? '')) return;
+        const rows = $(table).children('tbody').children('tr').toArray();
+        for (const row of [rows[0], rows[rows.length - 1]].filter(Boolean)) {
+          for (const td of $(row).children('td').toArray()) {
+            const style = $(td).attr('style') ?? '';
+            if (!/background-color\s*:/.test(style)) continue;
+            checked += 1;
+            assert.match(style, /border-radius\s*:/, `角落儲存格有底色卻沒有圓角：${$.html(td).slice(0, 100)}`);
+          }
+        }
+      });
+      assert.ok(checked > 0, '這封信應該有圓角容器');
+    });
+
+    it(`${email.id} 有邊框的 class 不會同時套在 table 和 td 上`, () => {
+      // 同一個 class 掛在 table 又掛在裡面的 td，邊框會畫兩次、變成兩條線。
+      const $ = cheerio.load(/** @type {string} */ (built.get(email.id)));
+      /** @param {string} selector */
+      const classesOn = (selector) =>
+        new Set(
+          $(selector)
+            .toArray()
+            .flatMap((el) => ($(el).attr('class') ?? '').split(/\s+/))
+            .filter(Boolean),
+        );
+      const onTd = classesOn('td');
+      const sheet = css(palettes[email.palette]);
+      for (const name of classesOn('table')) {
+        if (!onTd.has(name)) continue;
+        const rule = sheet.match(new RegExp(`\\.${name}\\s*\\{[^}]*\\}`));
+        assert.ok(rule, `class .${name} 沒有對應的樣式`);
+        assert.doesNotMatch(rule[0], /border(-radius)?\s*:/, `.${name} 同時套在 table 和 td 上`);
+      }
+    });
+  }
 });
 
 describe('進版控的 dist 與模板同步', () => {

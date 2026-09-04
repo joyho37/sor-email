@@ -62,6 +62,8 @@ export const kids = {
   cardBorderWidth: '2px',
   radius: '20px',
   radiusInner: '16px',
+  radiusInset: '18px', // radius - cardBorderWidth
+  radiusInnerInset: '15px', // radiusInner - 1px
   eyebrowBg: '#FAE5E4',
   eyebrowText: '#C6504E',
   btnBg: '#F5AF7E', // action/primary，配 #1A1A1A 字約 9.4:1
@@ -86,6 +88,8 @@ export const adult = {
   cardBorderWidth: '1px',
   radius: '12px',
   radiusInner: '10px',
+  radiusInset: '11px', // radius - cardBorderWidth
+  radiusInnerInset: '9px', // radiusInner - 1px
   eyebrowBg: '#ECECF4',
   eyebrowText: '#4F518C',
   btnBg: '#4F518C', // 配白字約 7.3:1

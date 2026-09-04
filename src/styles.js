@@ -10,6 +10,12 @@ import { EMAIL_WIDTH, FONT_STACK, MONO_STACK, type } from './tokens.js';
  * 只設其一，客戶端自動反轉時會變成同色相疊、文字直接消失。
  * `test/output.test.mjs` 會擋住漏設的情況。
  *
+ * 圓角規則：`border-radius` 放在 `<table>` 上只裁切**那張表格自己**的背景，
+ * 裡面 `<td>` 畫的底色照樣是直角，會蓋在圓角上露出方形缺口。所以：
+ * 圓角容器的邊框與底色只能畫在**一個**元素上；若內層 `<td>` 也必須有底色
+ * （深色模式防禦要求），那個 `<td>` 要一起給圓角，半徑扣掉外框寬度
+ * （`radiusInset`／`radiusInnerInset`），否則角落會凸出外框一個像素。
+ *
  * @param {import('./tokens.js').kids | import('./tokens.js').adult} palette 配色
  */
 export function css(palette) {
@@ -98,6 +104,7 @@ export function css(palette) {
       font-weight: 400;
       color: ${palette.text};
       background-color: ${palette.cardBg};
+      border-radius: ${palette.radiusInnerInset};
     }
 
     .chip {
@@ -123,6 +130,7 @@ export function css(palette) {
       font-weight: 400;
       color: ${palette.copyText};
       background-color: ${palette.copyBg};
+      border-radius: ${palette.radiusInnerInset};
     }
     .copy-label {
       font-family: ${FONT_STACK};
@@ -131,6 +139,7 @@ export function css(palette) {
       font-weight: 700;
       color: ${palette.textMuted};
       background-color: ${palette.copyBg};
+      border-radius: ${palette.radiusInnerInset};
     }
 
     .btn { background-color: ${palette.btnBg}; border-radius: 999px; }
@@ -156,7 +165,14 @@ export function css(palette) {
       display: inline-block;
     }
 
-    .header { background-color: ${palette.cardBg}; }
+    .header {
+      background-color: ${palette.cardBg};
+      border-radius: ${palette.radiusInset} ${palette.radiusInset} 0 0;
+    }
+    .card-body {
+      background-color: ${palette.cardBg};
+      border-radius: 0 0 ${palette.radiusInset} ${palette.radiusInset};
+    }
     .footer { background-color: ${palette.footerBg}; }
     .footer-text {
       font-family: ${FONT_STACK};
