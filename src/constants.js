@@ -48,12 +48,10 @@ export const ASSETS = {
   },
 };
 
-/** TODO(#10)：官網網址待確認。 */
-export const SITE_URL = 'https://REPLACE-ME.example.com/';
+export const SITE_URL = 'https://milinguall.com/';
 
-/** TODO(#10)：社群連結待確認。 */
 export const SOCIAL = [
-  { label: 'YouTube', url: 'https://REPLACE-ME.example.com/youtube' },
-  { label: 'Facebook', url: 'https://REPLACE-ME.example.com/facebook' },
-  { label: 'Instagram', url: 'https://REPLACE-ME.example.com/instagram' },
+  { label: 'YouTube', url: 'https://www.youtube.com/@MiParty' },
+  { label: 'Facebook', url: 'https://www.facebook.com/MilingualPalace/' },
+  { label: 'Instagram', url: 'https://www.instagram.com/milingualpalace/' },
 ];

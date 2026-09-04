@@ -59,6 +59,6 @@ src/
 - **LINE Seed TW 在 Outlook 與 Gmail 不會載入**：多數收件人看到的是系統中文字體。
 - **深色模式只求不破版**：每個文字節點明確設 `color`、每個容器明確設 `background-color`，不做專屬配色。
 - **只用 logo 一張圖**：其餘視覺全部是 HTML 色塊與邊框，圖片被擋掉後仍然存在。
-- **`src/constants.js` 裡的官網與社群網址還是佔位符**，上線前必須替換（#10）。logo 網址已經定案，見上方「部署」。
+- **頁尾的官網與社群網址已定案**，寫在 `src/constants.js`。#10 剩下的未決項是品牌 tagline 的正確字串。logo 網址見上方「部署」。
 
 決策脈絡見 `CONTEXT.md` 與 `docs/adr/`。

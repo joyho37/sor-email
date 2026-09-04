@@ -187,9 +187,9 @@
 
 頁尾那行 `FoR you, FoR me, FoRmosa.` 目前照 Figma 匯出時的結論寫死在 `src/constants.js`，但那則結論本身是從 Figma 素材讀出來的，**先前曾讀到不一致的版本**（`Talk you, Talk me, Talkmore`）。上線前請品牌端確認一次正確字串與大小寫。它出現在六封信的頁尾。
 
-### 官網與社群網址（待 #10）
+### ~~官網與社群網址~~（已確認）
 
-`src/constants.js` 裡還剩下的 `https://REPLACE-ME.example.com/...` 是佔位符，**上線前必須替換**：官網網址，與 YouTube / Facebook / Instagram 三個連結。它們都在頁尾。
+已於 2026-09-04 由課務提供，寫進 `src/constants.js`：官網 `https://milinguall.com/`，YouTube `@MiParty`，Facebook 與 Instagram `MilingualPalace` / `milingualpalace`。它們都在頁尾。
 
 ---
 
