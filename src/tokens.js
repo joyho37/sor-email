@@ -60,9 +60,7 @@ export const kids = {
   accentDeep: '#C6504E',
   cardBorder: '#EF857D',
   cardBorderWidth: '2px',
-  radius: '20px',
   radiusInner: '16px',
-  radiusInset: '18px', // radius - cardBorderWidth
   radiusInnerInset: '15px', // radiusInner - 1px
   eyebrowBg: '#FAE5E4',
   eyebrowText: '#C6504E',
@@ -86,9 +84,7 @@ export const adult = {
   accentDeep: '#3B3D6B',
   cardBorder: '#E4E4EC',
   cardBorderWidth: '1px',
-  radius: '12px',
   radiusInner: '10px',
-  radiusInset: '11px', // radius - cardBorderWidth
   radiusInnerInset: '9px', // radiusInner - 1px
   eyebrowBg: '#ECECF4',
   eyebrowText: '#4F518C',
