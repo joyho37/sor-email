@@ -17,35 +17,41 @@ export const BRAND_TAGLINE = 'FoR you, FoR me, FoRmosa.';
 export const COPYRIGHT = '© 2026 蕭博士 SoR 美語 · All rights reserved';
 
 /**
- * TODO(#8)：以下網址仍是佔位符，待使用者上傳素材與確認官網網址後替換。
+ * 本專案的 GitHub Pages 站台，網站根目錄就是 `dist/`。
  *
- * 郵件不能用相對路徑，logo 需要長期穩定的公開網址；且該網址必須不隨官網改版失效
- * ——舊信裡的圖若掛在舊站，網站重建後會全部斷掉。
- *
+ * logo 掛在這裡而不是官網：郵件不能用相對路徑，需要一個**長期穩定**的公開網址，
+ * 且該網址必須不隨官網改版失效——舊信裡的圖若掛在舊站，網站重建後會全部斷掉。
+ * 代價是這個網址綁在 repo 上：**repo 必須保持公開，且不能改名或轉移**，
+ * 否則所有已寄出的信都會破圖。
+ */
+export const PAGES_URL = 'https://joyho37.github.io/sor-email';
+
+/**
  * 尺寸取自 `assets/logo/` 的 2x 素材：primary 420×154（1x 210×77）、
  * inverse 458×152（1x 229×76）。
  */
 export const ASSETS = {
   logoPrimary: {
-    url: 'https://REPLACE-ME.example.com/sor/logo-primary.png',
+    url: `${PAGES_URL}/assets/logo/logo-primary@2x.png`,
     width: 210,
     height: 77,
     alt: '蕭博士 SoR 美語',
-    /** 預覽頁改用本機檔案，讓課務審閱時看得到圖。 */
-    localPath: '../../assets/logo/logo-primary@2x.png',
+    /** 預覽頁改用站內相對路徑，本機直接開檔與線上預覽都指到同一份圖。 */
+    localPath: '../assets/logo/logo-primary@2x.png',
   },
   logoInverse: {
-    url: 'https://REPLACE-ME.example.com/sor/logo-inverse.png',
+    url: `${PAGES_URL}/assets/logo/logo-inverse@2x.png`,
     width: 229,
     height: 76,
     alt: '蕭博士 SoR 美語',
-    localPath: '../../assets/logo/logo-inverse@2x.png',
+    localPath: '../assets/logo/logo-inverse@2x.png',
   },
 };
 
-/** TODO(#8)：官網網址待確認。 */
+/** TODO(#10)：官網網址待確認。 */
 export const SITE_URL = 'https://REPLACE-ME.example.com/';
 
+/** TODO(#10)：社群連結待確認。 */
 export const SOCIAL = [
   { label: 'YouTube', url: 'https://REPLACE-ME.example.com/youtube' },
   { label: 'Facebook', url: 'https://REPLACE-ME.example.com/facebook' },

@@ -7,8 +7,11 @@
  *   dist/preview/   假資料版本 + 可切換的預覽頁，給課務審閱
  *
  * dist/ 要進版控：後端拿的是檔案，不是建置結果。
+ *
+ * dist/ 同時是 GitHub Pages 的網站根目錄（`dist/emails/` 除外，交付檔案不上站），
+ * 所以 logo 也從這裡出：`dist/assets/logo/` 就是六封信 img src 指向的位址。
  */
-import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import ejs from 'ejs';
@@ -32,8 +35,8 @@ const srcDir = path.join(root, 'src');
 const distDir = path.join(root, 'dist');
 
 /**
- * 郵件不能用相對路徑，所以正式產出用雲端網址；預覽版改用本機檔案，
- * 讓課務不必等雲端網址就能審閱。
+ * 郵件不能用相對路徑，所以正式產出用 Pages 上的絕對網址；預覽版改用站內相對路徑，
+ * 這樣 dist/ 整個資料夾複製到哪裡、或直接用瀏覽器開檔，圖都還在。
  * @param {typeof ASSETS.logoPrimary} asset
  * @param {boolean} preview
  */
@@ -51,6 +54,8 @@ export async function render(email, opts = { preview: false }) {
   const palette = palettes[email.palette];
   const locals = {
     palette,
+    // 預覽版要多一行 noindex：它會發佈到 Pages，交付給後端的檔案不會。
+    preview: opts.preview,
     bg: palette.cardBg,
     width: EMAIL_WIDTH,
     subject: email.subject,
@@ -98,6 +103,7 @@ function previewIndex() {
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
 <title>SoR 郵件樣板預覽</title>
 <style>
   body { margin: 0; font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; background: #EFEDE8; color: #1A1A1A; }
@@ -139,10 +145,44 @@ ${tabs}
 `;
 }
 
+/**
+ * 站台首頁：直接把人送到預覽頁。
+ *
+ * 站台是公開的，但不希望被搜尋引擎索引。專案型 Pages 的 robots.txt 在
+ * `/<repo>/robots.txt`，不是網域根目錄，爬蟲不會讀（根目錄屬於另一個 repo），
+ * 所以**真正生效的是每一頁的 noindex meta**；robots.txt 只是將來換自訂網域時的保險。
+ */
+function siteIndex() {
+  return `<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta http-equiv="refresh" content="0; url=preview/" />
+<title>SoR 郵件樣板</title>
+</head>
+<body>
+<p><a href="preview/">前往郵件樣板預覽</a></p>
+</body>
+</html>
+`;
+}
+
+const ROBOTS_TXT = `# 站台公開但不進搜尋結果。真正生效的是每一頁的 noindex meta：
+# 專案型 GitHub Pages 的這個檔案不在網域根目錄，爬蟲不會讀到。
+User-agent: *
+Disallow: /
+`;
+
 async function build() {
   await rm(distDir, { recursive: true, force: true });
   await mkdir(path.join(distDir, 'emails'), { recursive: true });
   await mkdir(path.join(distDir, 'preview'), { recursive: true });
+
+  // logo 由站台自己託管：dist/assets/logo/ 就是六封信 img src 指向的位址。
+  await cp(path.join(root, 'assets', 'logo'), path.join(distDir, 'assets', 'logo'), {
+    recursive: true,
+  });
 
   for (const email of emails) {
     const html = await render(email);
@@ -153,6 +193,8 @@ async function build() {
   }
 
   await writeFile(path.join(distDir, 'preview', 'index.html'), previewIndex(), 'utf8');
+  await writeFile(path.join(distDir, 'index.html'), siteIndex(), 'utf8');
+  await writeFile(path.join(distDir, 'robots.txt'), ROBOTS_TXT, 'utf8');
   console.log(`建置完成：${emails.length} 封信 → dist/emails/，預覽 → dist/preview/index.html`);
 }
 

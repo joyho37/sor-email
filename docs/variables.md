@@ -146,7 +146,7 @@
 | 成人課程聯繫人 | 怡如老師 / Line ID `sandyfiona` | ③ | 同上。**人員異動時要記得改**——課務未將其標為變數 |
 | 歡迎語裡的課程名稱 | ④ `發音聽力矯正課成人班`、⑥ `大師班-發音聽力矯正課` | ④ ⑥ 第一段 | 同上。不用 `{{梯次名稱}}` 是因為它含組別（`…–52100組`），放進句子裡不通順 |
 | 品牌 tagline | `FoR you, FoR me, FoRmosa.` ⚠️ **待確認** | 頁尾 | 同上。見下方「未決」 |
-| logo 圖片網址 | **尚未定案**，目前是佔位符 | 頁首、頁尾 | 見下方「未決」 |
+| logo 圖片網址 | `https://joyho37.github.io/sor-email/assets/logo/…` | 頁首、頁尾 | 圖跟樣板一起走版控，改圖後重新建置。見下方「logo 掛在 GitHub Pages 上」 |
 | 官網網址、社群連結 | **尚未定案**，目前是佔位符 | 頁尾 | 見下方「未決」 |
 
 ---
@@ -183,15 +183,27 @@
 
 已確認「不同時段兩個孩子＝兩封」。同一時段若會**合併成一封**，報名通知就需要涵蓋多筆報名的重複區塊——那會改變樣板結構，不只是加一個變數。
 
-### 品牌 tagline 的正確字串（待 #8）
+### 品牌 tagline 的正確字串（待 #10）
 
-頁尾那行 `FoR you, FoR me, FoRmosa.` 目前照 #8 的匯出結論寫死在 `src/constants.js`，但那則結論本身是從 Figma 素材讀出來的，**先前曾讀到不一致的版本**（`Talk you, Talk me, Talkmore`）。上線前請品牌端確認一次正確字串與大小寫。它出現在六封信的頁尾。
+頁尾那行 `FoR you, FoR me, FoRmosa.` 目前照 Figma 匯出時的結論寫死在 `src/constants.js`，但那則結論本身是從 Figma 素材讀出來的，**先前曾讀到不一致的版本**（`Talk you, Talk me, Talkmore`）。上線前請品牌端確認一次正確字串與大小寫。它出現在六封信的頁尾。
 
-### logo 與官網網址（待 #8）
+### 官網與社群網址（待 #10）
 
-`src/constants.js` 裡的 `https://REPLACE-ME.example.com/...` 全部是佔位符，**上線前必須替換**：
+`src/constants.js` 裡還剩下的 `https://REPLACE-ME.example.com/...` 是佔位符，**上線前必須替換**：官網網址，與 YouTube / Facebook / Instagram 三個連結。它們都在頁尾。
 
-- logo 標準版（頁首，白底）與反白版（頁尾，深色底），素材已在 `assets/logo/`
-- 官網網址、YouTube / Facebook / Instagram 連結
+---
+
+## logo 掛在 GitHub Pages 上
 
 logo 網址必須**長期穩定、不隨官網改版失效**。舊信裡的圖若掛在舊站，網站重建後會全部斷掉——這是既有通知信已經存在的風險。
+
+所以圖不放官網，跟樣板一起走版控：`assets/logo/` 的兩個檔案由建置複製到 `dist/assets/logo/`，而 `dist/` 就是這個 repo 的 GitHub Pages 站台根目錄。六封信的 `<img src>` 指向
+
+```
+https://joyho37.github.io/sor-email/assets/logo/logo-primary@2x.png   頁首（白底，標準版）
+https://joyho37.github.io/sor-email/assets/logo/logo-inverse@2x.png   頁尾（深色底，反白版）
+```
+
+代價是這組網址綁在 repo 上：**repo 必須保持公開，不能改名或轉移**，否則所有已寄出的信都會破圖。若之後要換到別的空間，改 `src/constants.js` 的 `PAGES_URL` 重新建置即可，但**已經寄出去的信改不了**。
+
+寄信端不必做任何事：網址已經寫死在 `dist/emails/` 的 HTML 裡，不是變數。

@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url';
 import * as cheerio from 'cheerio';
 import { render } from '../scripts/build.mjs';
 import { emails, extractVariables, fill } from '../src/emails.js';
+import { PAGES_URL } from '../src/constants.js';
 import { css, mediaCss } from '../src/styles.js';
 import { palettes, EMAIL_WIDTH } from '../src/tokens.js';
 
@@ -242,6 +243,66 @@ describe('進版控的 dist 與模板同步', () => {
     const index = await readFile(path.join(root, 'dist', 'preview', 'index.html'), 'utf8');
     for (const email of emails) {
       assert.ok(index.includes(`${email.id}.html`), email.id);
+    }
+  });
+});
+
+describe('GitHub Pages 站台', () => {
+  /**
+   * @param {string[]} parts dist/ 底下的路徑
+   * @returns {Promise<string>}
+   */
+  const readDist = (...parts) => readFile(path.join(root, 'dist', ...parts), 'utf8');
+
+  // 站台公開，但六封信是課務與收件人的內容，不該出現在搜尋結果。
+  // 專案型 Pages 的 robots.txt 落在 /sor-email/robots.txt，不是網域根目錄，爬蟲不會讀，
+  // 所以真正生效的是每一頁的 noindex meta——這條測試守的就是那道。
+  it('每一頁上站的 HTML 都帶 noindex', async () => {
+    const pages = ['index.html', 'preview/index.html', ...emails.map((e) => `preview/${e.id}.html`)];
+    for (const page of pages) {
+      const html = await readDist(...page.split('/'));
+      assert.match(html, /<meta name="robots" content="noindex, nofollow"/, page);
+    }
+  });
+
+  it('站台不發佈交付給後端的六封信', async () => {
+    // 交付檔案要保持乾淨，不塞 noindex，代價是不能上站——由 workflow 把它排除。
+    const workflow = await readFile(path.join(root, '.github', 'workflows', 'pages.yml'), 'utf8');
+    assert.match(workflow, /rm -rf dist\/emails/);
+    for (const email of emails) {
+      const html = await readDist('emails', `${email.id}.html`);
+      assert.doesNotMatch(html, /name="robots"/, email.id);
+    }
+  });
+
+  it('robots.txt 擋掉全部爬蟲', async () => {
+    const robots = await readDist('robots.txt');
+    assert.match(robots, /^User-agent: \*$/m);
+    assert.match(robots, /^Disallow: \/$/m);
+  });
+
+  it('logo 由站台自己託管，六封信指到站台上的絕對網址', async () => {
+    // 郵件不能用相對路徑，且網址不能隨官網改版失效，所以圖跟站台一起走版控。
+    for (const file of ['logo-primary@2x.png', 'logo-inverse@2x.png']) {
+      await readFile(path.join(root, 'dist', 'assets', 'logo', file));
+    }
+    for (const email of emails) {
+      const html = /** @type {string} */ (built.get(email.id));
+      const srcs = [...html.matchAll(/<img[^>]+src="([^"]+)"/g)].map((m) => m[1]);
+      assert.ok(srcs.length > 0, email.id);
+      for (const src of srcs) {
+        assert.ok(src.startsWith(`${PAGES_URL}/assets/logo/`), `${email.id}: ${src}`);
+      }
+    }
+  });
+
+  it('預覽版的 logo 用站內相對路徑', async () => {
+    // dist/ 複製到別處或直接用瀏覽器開檔，圖都還要在。
+    for (const email of emails) {
+      const html = /** @type {string} */ (previews.get(email.id));
+      for (const [, src] of html.matchAll(/<img[^>]+src="([^"]+)"/g)) {
+        assert.equal(src.startsWith('../assets/logo/'), true, `${email.id}: ${src}`);
+      }
     }
   });
 });

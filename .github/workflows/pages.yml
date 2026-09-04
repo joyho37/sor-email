@@ -1,0 +1,44 @@
+# 把預覽頁與 logo 發佈到 GitHub Pages。
+#
+# 站台根目錄就是版控裡的 dist/：後端拿到的檔案、課務看到的預覽、六封信 img src 指向的
+# logo，全都是同一份產物。建置不在這裡跑（dist/ 已進版控），改由 npm test 擋住
+# 「改了 src/ 卻沒重新 build」的情況——沒過就不發佈。
+name: Deploy preview to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 併發的部署互相覆蓋沒有意義，但也不取消進行中的那次，免得站上停在半途的狀態。
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      # 交付給後端的六封信不上站：站上每一頁都要帶 noindex，而交付檔案要保持乾淨。
+      - run: rm -rf dist/emails
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

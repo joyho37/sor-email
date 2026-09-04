@@ -7,6 +7,10 @@
 <meta name="x-apple-disable-message-reformatting" />
 <meta name="color-scheme" content="light" />
 <meta name="supported-color-schemes" content="light" />
+<% if (preview) { -%>
+<!-- 預覽版會發佈到 GitHub Pages，站台不給搜尋引擎索引。交付給後端的 dist/emails/ 不帶這行。 -->
+<meta name="robots" content="noindex, nofollow" />
+<% } -%>
 <title><%= subject %></title>
 <!--
   主旨：<%= subject %>

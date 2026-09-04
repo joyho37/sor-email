@@ -1,0 +1,4 @@
+# 站台公開但不進搜尋結果。真正生效的是每一頁的 noindex meta：
+# 專案型 GitHub Pages 的這個檔案不在網域根目錄，爬蟲不會讀到。
+User-agent: *
+Disallow: /
